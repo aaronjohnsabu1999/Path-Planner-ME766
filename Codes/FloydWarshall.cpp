@@ -1,4 +1,4 @@
-#include <omp.h>
+// #include <omp.h>
 #include <vector>
 #include <fstream>
 #include <iostream>
@@ -104,9 +104,9 @@ int main(int argv, char **argc)
 	int numThreads = strtol(argc[1], (char **)NULL, 10), threadNum;
 	int start, end, mid;
 	vector< pair<int,int> > xStart, xMid, xEnd;
-	omp_set_num_threads(numThreads);
+	// omp_set_num_threads(numThreads);
 	
-	double t1 = omp_get_wtime();
+	// double t1 = omp_get_wtime();
 	// #pragma omp parallel shared(g)
 	for (mid = 0; mid < g.vertNum(); mid++)
     {
@@ -162,12 +162,12 @@ int main(int argv, char **argc)
 						break;
 				}
 				
-				(g.adj)[start].erase(xStart.at(posStartEnd));
+				(g.adj)[start].remove(xStart.at(posStartEnd));
 				(g.adj)[start].push_back(make_pair(posStartEnd,  min(valStartEnd, valStartMid + valMidEnd)));
 			}
 		}
     }
-	double t2 = omp_get_wtime() - t1;
+	// double t2 = omp_get_wtime() - t1;
 	
 	return 0;
 }
