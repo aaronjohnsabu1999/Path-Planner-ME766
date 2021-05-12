@@ -18,8 +18,8 @@ public:
 	Graph(int V);
 	int vertNum();
 	void addEdge(int u, int v, int w);
-    void modifyEdge(int u, int v, int w);
-    void Dijkstras_Algo(int s, int dest);
+	void modifyEdge(int u, int v, int w);
+	void Dijkstras_Algo(int s, int dest);
 	void BellmanFord_Algo(int s);
 	void FloydWarshall_Algo(int s);
 };
@@ -190,8 +190,6 @@ int main(int argv, char **argc)
 	cout<<"Number of edges: "<<vect.size()<<'\n';
 	*/
 	
-	cout<<"Number of vertices: "<<g.vertNum()<<'\n';
-	
 	// Floyd-Warshall Algorithm
 	int numThreads = strtol(argc[2], (char **)NULL, 10), threadNum;
 	int start, end, mid;
@@ -213,7 +211,6 @@ int main(int argv, char **argc)
 		#pragma omp parallel for private(start) shared(g)
 		for (start = 0; start < g.vertNum(); start++)
 		{
-			cout<<start<<" here"<<endl;
 			double tS1 = omp_get_wtime();
 			
 			vector< pair<int,int> > xStart;
@@ -279,10 +276,10 @@ int main(int argv, char **argc)
 			// cout<<"    "<<start<<": "<<tS2<<endl;
 		}
 		double tM2 = omp_get_wtime() - tM1;
-		cout<<"  "<<mid<<": "<<tM2<<endl;
+		// cout<<"  "<<mid<<": "<<tM2<<endl;
     }
 	double t2 = omp_get_wtime() - t1;
-	cout<<"tot: "<<t2<<endl;
+	cout<<"Total Time taken for \t"<<V<<" vertices = "<<t2<<" seconds."<<endl;
 	
 	return 0;
 }
