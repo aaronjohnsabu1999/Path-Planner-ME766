@@ -1,4 +1,4 @@
-// #include <omp.h>
+#include <omp.h>
 #include <vector>
 #include <fstream>
 #include <iostream>
@@ -104,19 +104,19 @@ int main(int argv, char **argc)
 	int numThreads = strtol(argc[1], (char **)NULL, 10), threadNum;
 	int start, end, mid;
 	vector< pair<int,int> > xStart, xMid, xEnd;
-	// omp_set_num_threads(numThreads);
+	omp_set_num_threads(numThreads);
 	
-	// double t1 = omp_get_wtime();
-	// #pragma omp parallel shared(g)
+	#pragma omp parallel shared(g)
 	for (mid = 0; mid < g.vertNum(); mid++)
     {
 		xMid.clear();
 		xMid.reserve(g.adj[mid].size());
 		copy(g.adj[mid].begin(), g.adj[mid].end(), xMid.begin());
 		
-		// #pragma omp parallel for schedule(dynamic)
+		#pragma omp parallel for schedule(dynamic)
 		for (start = 0; start < g.vertNum(); start++)
 		{
+			double t1 = omp_get_wtime();
 			xStart.clear();
 			xStart.reserve(g.adj[start].size());
 			copy(g.adj[start].begin(), g.adj[start].end(), xStart.begin());
@@ -161,13 +161,14 @@ int main(int argv, char **argc)
 					if (doneMidEnd == 1)
 						break;
 				}
-				
-				(g.adj)[start].remove(xStart.at(posStartEnd));
+				pair<int,int> replaceNode = make_pair(posStartEnd, valStartEnd);
+				(g.adj)[start].remove(replaceNode);
 				(g.adj)[start].push_back(make_pair(posStartEnd,  min(valStartEnd, valStartMid + valMidEnd)));
 			}
+			double t2 = omp_get_wtime() - t1;
+			cout<<start<<": "<<t2<<endl;
 		}
     }
-	// double t2 = omp_get_wtime() - t1;
 	
 	return 0;
 }
