@@ -19,9 +19,6 @@ public:
 	int vertNum();
 	void addEdge(int u, int v, int w);
 	void modifyEdge(int u, int v, int w);
-	void Dijkstras_Algo(int s, int dest);
-	void BellmanFord_Algo(int s);
-	void FloydWarshall_Algo(int s);
 };
 
 int Graph::vertNum()
@@ -56,20 +53,6 @@ void Graph::modifyEdge(int u, int v, int w)
 	
 	adj[u].push_back(make_pair(v, w));
 	adj[v].push_back(make_pair(u, w));
-}
-void Graph::Dijkstras_Algo(int src, int dest)
-{
-
-
-}
-void Graph::BellmanFord_Algo(int src)
-{
-
-
-}
-void Graph::FloydWarshall_Algo(int src)
-{
-  
 }
 
 int main(int argv, char **argc)
@@ -201,14 +184,13 @@ int main(int argv, char **argc)
 	for (mid = 0; mid < g.vertNum(); mid++)
     {
 		double tM1 = omp_get_wtime();
-		threadNum = omp_get_thread_num();
 		
 		vector< pair<int,int> > xMid;
 		xMid.clear();
 		xMid.reserve(g.adj[mid].size());
 		copy(g.adj[mid].begin(), g.adj[mid].end(), xMid.begin());
 		
-		#pragma omp parallel for private(start) shared(g)
+		#pragma omp parallel for private(start, end) shared(g)
 		for (start = 0; start < g.vertNum(); start++)
 		{
 			double tS1 = omp_get_wtime();
@@ -218,7 +200,7 @@ int main(int argv, char **argc)
 			xStart.reserve(g.adj[start].size());
 			copy(g.adj[start].begin(), g.adj[start].end(), xStart.begin());
 			
-			#pragma omp parallel for private(end)
+			// #pragma omp parallel for private(end)
 			for (end = 0; end < g.vertNum(); end++)
 			{
 				double tE1 = omp_get_wtime();
@@ -267,17 +249,9 @@ int main(int argv, char **argc)
 				pair<int,int> replaceNode = make_pair(posStartEnd, valStartEnd);
 				(g.adj)[start].remove(replaceNode);
 				(g.adj)[start].push_back(make_pair(posStartEnd, min(valStartEnd, valStartMid + valMidEnd)));
-				
-				double tE2 = omp_get_wtime() - tE1;
-				// cout<<"      "<<end<<": "<<tE2<<endl;
 			}
-			
-			double tS2 = omp_get_wtime() - tS1;
-			// cout<<"    "<<start<<": "<<tS2<<endl;
 		}
-		double tM2 = omp_get_wtime() - tM1;
-		// cout<<"  "<<mid<<": "<<tM2<<endl;
-    }
+   }
 	double t2 = omp_get_wtime() - t1;
 	cout<<"Total Time taken for \t"<<V<<" vertices = "<<t2<<" seconds."<<endl;
 	
