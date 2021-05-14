@@ -68,7 +68,7 @@ int main()
 {
   vector<vector<int>> vect;
     fstream disFile;
-    disFile.open("/home/170100094/USA-road-d_NY.txt");
+    disFile.open("../USA-road-d_NY.txt");
 
     if (disFile.is_open()){ 
         string tp;

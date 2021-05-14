@@ -667,7 +667,7 @@ int main()
 	return 0;
 	*/
 // 	fstream disFile;
-// 	disFile.open("USA-road-d_NY.txt");
+// 	disFile.open("../USA-road-d_NY.txt");
 	
 // 	vector<vector<int>> vect;
 	
