@@ -1,6 +1,6 @@
 #!/bin/bash
 
-nvcc -o FWAlgoCUDA FloydWarshall4.cu -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\bin\Hostx64\x64"
+nvcc -o FWAlgoCUDA FloydWarshall.cu -ccbin "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\bin\Hostx64\x64"
 
 TIMEFORMAT="%R"
 for iter in 1 2 3 4 5 6 7 8 9 10 11
