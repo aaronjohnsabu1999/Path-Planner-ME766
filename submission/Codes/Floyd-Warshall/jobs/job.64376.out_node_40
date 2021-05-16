@@ -1,0 +1,32 @@
+==========================================
+SLURM_CLUSTER_NAME = iitk-cluster
+SLURM_JOB_ACCOUNT = iitb-t
+SLURM_JOB_ID = 64376
+SLURM_JOB_NAME = 170070050Project
+SLURM_JOB_NODELIST = hm060
+SLURM_JOB_USER = 170070050
+SLURM_JOB_UID = 15276
+SLURM_JOB_PARTITION = hm
+SLURM_TASK_PID = 46760
+SLURM_SUBMIT_DIR = /home/170070050/ME766/Path-Planner-ME766
+SLURM_CPUS_ON_NODE = 16
+SLURM_NTASKS = 16
+SLURM_TASK_PID = 46760
+==========================================
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	16) = 271.932
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	12) = 361.887
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	10) = 433.776
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	8) = 541.903
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	4) = 1081.35
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	2) = 2157.94
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	1) = 4306.57
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	16) = 271.836
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	12) = 361.775
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	10) = 433.689
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	8) = 541.77
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	4) = 1081.01
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	2) = 2173.29
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	1) = 4304.9
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	16) = 271.896
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	12) = 361.733
+Time taken for OpenMP implementation with (V = 	5120) and (numThreads = 	10) = 433.793
