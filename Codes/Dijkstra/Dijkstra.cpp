@@ -459,6 +459,180 @@ void erase(int start, int *a1, int *a2, int index)
 // }
 
 
+// void Graph::Dijkstras_Algo_omp(int src, int dest)
+// {
+// 	int vertices = this->V;
+// 	int i,v,weight,d;
+// 	bool * connected = new bool[vertices];
+
+
+// 	for(i = 0; i<vertices;i++)
+// 	{
+// 		connected[i] = false;
+// 	}
+// 	connected[src] = 0;
+
+// 	int *dist = new int[vertices];
+// 	for(i=0; i<vertices; i++){
+// 		dist[i] = INF;
+// 	}
+// 	dist[src] = 0;
+
+// 	vector<list< pair<int, int> >::iterator> partial_element;
+
+// 	vector< vector<list< pair<int, int> >::iterator> > element;
+
+// 	list< pair<int, int> >::iterator k;
+	
+// 	for(i=0; i<vertices; i++)
+// 	{
+// 		partial_element.clear();
+// 		for (k = adj[i].begin(); k != adj[i].end(); ++k)
+// 		{
+// 			partial_element.push_back(k);
+// 		}
+// 		element.push_back(partial_element);		
+// 	}
+
+
+// 	for (k = adj[src].begin(); k != adj[src].end(); ++k)
+// 	{
+// 		v = (*k).first;
+// 		weight = (*k).second;
+// 		dist[v] = weight;
+// 	}
+
+// 	int first, thread, n_thread, last, min_d, min_node, step;
+// 	bool check = true;
+
+// 	double start, end;
+// 	start = omp_get_wtime();
+
+// 	#pragma omp parallel private(i, weight, k, first, last, thread, step, min_d, min_node) shared(connected,d,dist,v,n_thread,adj,element,check)
+// 	{
+// 		thread = omp_get_thread_num();
+// 		n_thread = omp_get_num_threads();
+// 		first = (thread*vertices)/n_thread;
+// 		last = ((thread+1)*vertices)/n_thread;
+
+// 		for(step=0;step<vertices;step++)
+// 		//while(check)
+// 		//for(step=first;step<last;step++)
+// 		{
+// 			//#pragma omp single
+// 			{
+// 				d = INF;
+// 				v = -1;
+// 			}
+
+// 			min_d = INF;
+// 			min_node = -1;
+// 			for (int i = first; i <= last; i++ )
+// 			{
+// 				if ( !connected[i] && dist[i] < min_d)
+// 				{
+// 				  min_d = dist[i];
+// 				  min_node = i;
+// 				}
+// 			}
+
+// 			#pragma omp critical
+// 			{
+// 				if(min_d < d)
+// 				{
+// 					d = min_d;
+// 					v = min_node;
+// 				}
+// 			}
+
+// 			#pragma omp barrier
+
+// 			#pragma omp single
+// 			{
+// 				if(v != -1)
+// 				{
+// 					connected[v] = true;
+// 				}
+// 			}
+
+// 			#pragma omp barrier
+
+// 			// if(v != -1)
+// 			// {
+// 			// 	for (int i = first; i <= last; i++ )
+// 			// 	{
+// 			// 		if ( !connected[i] )
+// 			// 		{
+// 			// 			int j;
+// 			// 			//for(k = adj[v].begin(); k != adj[v].end(); ++k)
+// 			// 			for(j = 0; j < element[v].size(); ++j)
+// 			// 			{
+// 			// 				k = element[v].at(j);
+// 			// 				if(i == (*k).first)
+// 			// 				{
+// 			// 					weight = (*k).second;
+// 			// 					if(weight < INF)
+// 			// 					{
+// 			// 						if(dist[i] > dist[v] + weight)
+// 			// 						{
+// 			// 							dist[i] = dist[v] + weight;
+// 			// 						}
+// 			// 					}
+// 			// 				}
+// 			// 			}
+// 			// 		}
+// 			// 	}				
+// 			// }
+
+// 			#pragma omp single
+// 			{
+// 			if(v != -1)
+// 			{
+// 				for(int j =0; j < element[v].size(); j++)
+// 				{
+// 					k = element[v].at(j);
+// 					i = (*k).first;
+// 					//if((!connected[i]))
+// 					//{
+// 						weight = (*k).second;
+// 						//if(weight < INF)
+// 						//{
+// 							if(dist[i] > dist[v] + weight)
+// 							{
+// 								dist[i] = dist[v] + weight;
+// 							}
+// 						//}
+// 					//}
+// 				}				
+// 			}
+
+// 			}			
+
+// 			#pragma omp barrier
+
+// 		}
+// 	}#pragma omp parallel for schedule(runtime) private(i, j, v, weight, tmp) shared(dist,u,a1,a2,index)
+
+// 	end = omp_get_wtime();
+// 	printf("Parallel Running time: %f ms\n", (end - start)*1000);	
+
+// 	delete[] connected;
+
+// 	int j;
+// 	for (int i = 0; i < V; ++i){
+// 		j = i+ 1;
+// 		ofstream myfile ("USA_NY_parallel_out.txt", ios::app);
+// 		//ofstream myfile ("tmp_parallel_out.txt", ios::app);
+// 		myfile << j << " \t\t " << dist[i] << endl;
+// 		myfile.close();			
+// 	}
+
+// 	delete[] dist;
+
+// }
+
+
+
 void Graph::Dijkstras_Algo_omp(int src, int dest)
 {
 	int vertices = this->V;
@@ -508,17 +682,15 @@ void Graph::Dijkstras_Algo_omp(int src, int dest)
 	double start, end;
 	start = omp_get_wtime();
 
-	#pragma omp parallel private(weight, k, first, last, thread, step, min_d, min_node) shared(connected,d,dist,v,n_thread,adj,element,check)
+	for(step=0;step<vertices;step++)
 	{
-		thread = omp_get_thread_num();
-		n_thread = omp_get_num_threads();
-		first = (thread*vertices)/n_thread;
-		last = ((thread+1)*vertices)/n_thread;
-
-		for(step=1;step<vertices;step++)
-		//while(check)
-		//for(step=first;step<last;step++)
+		#pragma omp parallel private(i, weight, k, first, last, thread, step, min_d, min_node) shared(connected,d,dist,v,n_thread,element,check)
 		{
+			thread = omp_get_thread_num();
+			n_thread = omp_get_num_threads();
+			first = (thread*vertices)/n_thread;
+			last = ((thread+1)*vertices)/n_thread;
+
 			#pragma omp single
 			{
 				d = INF;
@@ -555,60 +727,34 @@ void Graph::Dijkstras_Algo_omp(int src, int dest)
 				}
 			}
 
-			#pragma omp barrier
-
-			if(v != -1)
-			{
-				for (int i = first; i <= last; i++ )
-				{
-					if ( !connected[i] )
-					{
-						int j;
-						//for(k = adj[v].begin(); k != adj[v].end(); ++k)
-						for(j = 0; j < element[v].size(); ++j)
-						{
-							k = element[v].at(j);
-							if(i == (*k).first)
-							{
-								weight = (*k).second;
-								if(weight < INF)
-								{
-									if(dist[i] > dist[v] + weight)
-									{
-										dist[i] = dist[v] + weight;
-									}
-								}
-							}
-						}
-					  // if ( ohd[mv][i] < i4_huge )
-					  // {
-					  //   if ( mind[mv] + ohd[mv][i] < mind[i] )  
-					  //   {
-					  //     mind[i] = mind[mv] + ohd[mv][i];
-					  //   }
-					  // }
-					}
-				}				
-			}
-
-			#pragma omp barrier
-
-			// check = false;
-			// #pragma omp single
-			// {
-			// 	for(int i=0; i< vertices;i++)
-			// 	{
-			// 		if(connected[i] = false)
-			// 		{
-			// 			check = true;
-			// 		}
-			// 	}
-			// }
-
-			// #pragma omp barrier
-
+			#pragma omp barrier					
 		}
+
+		if(v != -1)
+		{
+			int j;
+			#pragma omp parallel for schedule(runtime) private(i, j, weight, k) shared(dist,v,element)
+			for(j =0; j < element[v].size(); j++)
+			{
+				k = element[v].at(j);
+				i = (*k).first;
+				if((!connected[i]))
+				{
+					weight = (*k).second;
+					//if(weight < INF)
+					//{
+						if(dist[i] > dist[v] + weight)
+						{
+							dist[i] = dist[v] + weight;
+						}
+					//}
+				}
+			}				
+		}
+
+
 	}
+
 
 	end = omp_get_wtime();
 	printf("Parallel Running time: %f ms\n", (end - start)*1000);	
@@ -627,6 +773,7 @@ void Graph::Dijkstras_Algo_omp(int src, int dest)
 	delete[] dist;
 
 }
+
 
 
 void Graph::BellmanFord_Algo(int src)
@@ -666,47 +813,47 @@ int main()
 
 	return 0;
 	*/
-// 	fstream disFile;
-// 	disFile.open("../USA-road-d_NY.txt");
+	fstream disFile;
+	disFile.open("USA-road-d_NY.txt");
 	
-// 	vector<vector<int>> vect;
+	vector< vector<int> > vect;
 	
-// 	if (disFile.is_open()){ 
-// 		string tp;
-// //		int count =15;	
-// 		while(getline(disFile, tp)){ 
-// //			getline(disFile, tp);
-// 			vector<int> pair;
-// 			if(tp[0] == 'a'){
-// 				int a;
-// 				string str(tp.begin()+1, tp.begin()+tp.size() );
-// 				stringstream ss (str);
-// 				while ((ss >> a))
-// 					pair.push_back (a);
-// 				vect.push_back(pair);
-// 				//cout<<vect.size();
-// 			}
-// //			count --;
-// 		}
-// 		disFile.close(); 
-//    }
+	if (disFile.is_open()){ 
+		string tp;
+//		int count =15;	
+		while(getline(disFile, tp)){ 
+//			getline(disFile, tp);
+			vector<int> pair;
+			if(tp[0] == 'a'){
+				int a;
+				string str(tp.begin()+1, tp.begin()+tp.size() );
+				stringstream ss (str);
+				while ((ss >> a))
+					pair.push_back (a);
+				vect.push_back(pair);
+				//cout<<vect.size();
+			}
+//			count --;
+		}
+		disFile.close(); 
+   }
    
-// //    for (int i = 0; i < vect.size(); i++) {
-// //        for (int j = 0; j < vect[i].size(); j++)
-// //            cout << vect[i][j] << " ";
-// //        cout << endl;
-// //    }
+   // for (int i = 0; i < vect.size(); i++) {
+   //     for (int j = 0; j < vect[i].size(); j++)
+   //         cout << vect[i][j] << " ";
+   //     cout << endl;
+   // }
 
-// 	Graph g(264346);
+	Graph g(264346);
 
-// 	cout<<"Number of edges: "<<vect.size()<<'\n';
+	cout<<"Number of edges: "<<vect.size()<<'\n';
 	
-//     for (int i = 0; i < vect.size(); i++) {
-//     	g.addEdge(vect[i][0]-1,vect[i][1]-1,vect[i][2]);
-//     }
+    for (int i = 0; i < vect.size(); i++) {
+    	g.addEdge(vect[i][0]-1,vect[i][1]-1,vect[i][2]);
+    }
 	
-// 	g.Dijkstras_Algo(0, 100);
-// 	g.Dijkstras_Algo_omp(0, 100);
+	g.Dijkstras_Algo(0, 100);
+	g.Dijkstras_Algo_omp(0, 100);
 	
 	// int V = 25;
 	// Graph g(V);
@@ -790,15 +937,15 @@ int main()
 	// //g.Dijkstras_Algo(0, 5);
 	// g.Dijkstras_Algo_omp(0, 5);
 
-	int V = 10000;
-	int E = 50000;
-	Graph g(V);
-	g.addEdge(0,2,1);
-	for (int j = 1; j < E; j++) {
-		g.addEdge(rand()%(V) + 0, rand()%(V) + 0, rand()%(50 - 1 + 1) + 1);
-	}
-	g.Dijkstras_Algo(0, 5);	
-	g.Dijkstras_Algo_omp(0, 5);
+	// int V = 200000;
+	// int E = 700000;
+	// Graph g(V);
+	// g.addEdge(0,2,1);
+	// for (int j = 1; j < E; j++) {
+	// 	g.addEdge(rand()%(V) + 0, rand()%(V) + 0, rand()%(50 - 1 + 1) + 1);
+	// }
+	// g.Dijkstras_Algo(0, 5);	
+	// g.Dijkstras_Algo_omp(0, 5);
 
 	return 0;
 }
